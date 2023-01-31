@@ -1,6 +1,24 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
 
+//--------------------------------------------VARS--------------------------------------------------------
+htmlOpening = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<script>`;
+
+htmlClosing = `</script>
+</body>
+</html>`;
+
+var employeeList = [];
+
 //------------------------------------------ENGINEER------------------------------------------------------
 function engineer() {
     inquirer
@@ -34,7 +52,8 @@ function engineer() {
 
             ])
         .then(({ name, id, gitHub, email }) => {
-
+            var employeeInclude = [name,id,gitHub,email];
+            employeeList.push(employeeInclude);
             mainMenu()
         })
         .catch((error) => {
@@ -82,7 +101,8 @@ function intern() {
 
             ])
         .then(({ name, id, school, email }) => {
-
+            var employeeInclude = [name,id,school,email];
+            employeeList.push(employeeInclude);
             mainMenu()
         })
         .catch((error) => {
@@ -131,7 +151,8 @@ function manager() {
 
             ])
         .then(({ name, id, phoneNumber, email }) => {
-
+            var employeeInclude = [name,id,phoneNumber,email];
+            employeeList.push(employeeInclude);
             mainMenu()
         })
         .catch((error) => {
@@ -148,8 +169,27 @@ function manager() {
 
 //------------------------------------------GENERATE PAGE------------------------------------------------------
 function generatePage() {
-    console.log("possible logic")
+    var count = employee.length
 
+    fs.writeFile('index.html', htmlOpening, function (err) {
+        if (err) throw err;
+        console.log('Saved!');
+    });
+
+    while (i <= count) {
+        fs.appendFile('index.html', ``,function (err) {
+            if (err) throw err;
+            console.log('Saved!');
+        });
+        i++;
+    }
+
+    fs.appendFile('index.html', htmlClosing, function (err) {
+        if (err) throw err;
+        console.log('Saved!');
+    });
+
+    employeeList.length = 0;
 }
 
 //------------------------------------------MAIN------------------------------------------------------
@@ -191,3 +231,6 @@ function mainMenu() {
 }
 
 mainMenu()
+
+
+
