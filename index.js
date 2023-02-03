@@ -1,19 +1,30 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
 
+const Manager = require('./manager');
+const Engineer = require('./engineer');
+const Intern = require('./intern');
+
 //--------------------------------------------VARS--------------------------------------------------------
-htmlOpening = `<!DOCTYPE html>
+var htmlOpening = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Document</title>
 </head>
 <body>
-<script>`;
+<div class = "container-fluid">
+    <header>Development Team</header>
+    <div class = "col-12">
+        <div class="row" id="employeeRow">`;
 
-htmlClosing = `</script>
+var htmlClosing = `
+        </div>
+    </div>
+</div>
 </body>
 </html>`;
 
@@ -52,8 +63,10 @@ function engineer() {
 
             ])
         .then(({ name, id, gitHub, email }) => {
-            var employeeInclude = [name,id,gitHub,email];
-            employeeList.push(employeeInclude);
+            var newEngineer = new Engineer(name, id, email, gitHub);
+            console.log(newEngineer);
+
+            employeeList.push(newEngineer);
             mainMenu()
         })
         .catch((error) => {
@@ -101,8 +114,9 @@ function intern() {
 
             ])
         .then(({ name, id, school, email }) => {
-            var employeeInclude = [name,id,school,email];
-            employeeList.push(employeeInclude);
+            var newIntern = new Intern(name, id, email, school);
+            console.log(newIntern);
+            employeeList.push(newIntern);
             mainMenu()
         })
         .catch((error) => {
@@ -151,8 +165,9 @@ function manager() {
 
             ])
         .then(({ name, id, phoneNumber, email }) => {
-            var employeeInclude = [name,id,phoneNumber,email];
-            employeeList.push(employeeInclude);
+            var newManager = new Manager(name, id, email, phoneNumber);
+            console.log(newManager);
+            employeeList.push(newManager);
             mainMenu()
         })
         .catch((error) => {
@@ -166,31 +181,75 @@ function manager() {
             }
         });
 }
-
 //------------------------------------------GENERATE PAGE------------------------------------------------------
-function generatePage() {
-    var count = employee.length
+function createContent() {
+    var htmlText = htmlOpening
+    var employeeCount = employeeList.length
+    var i = 0;
+    console.log(employeeList)
+    while (i < employeeCount) {
+        console.log(employeeList[i].getRole())
+        if (employeeList[i].getRole().toString() === "Engineer") {
+            htmlText += `
+                <div class="card" style="width: 25%">
+                    <div class="card-body">
+                        <ul class="devMember list-group list-group-flush">
+                            <li class="list-group-item">Name: ${employeeList[i].name}</li>
+                            <li class="list-group-item">ID: ${employeeList[i].id}</li>
+                            <li class="list-group-item">GitHub: ${employeeList[i].gitHub}</li>
+                            <li class="list-group-item">Email: ${employeeList[i].email}</li>
+                        </ul>
+                    </div>
+                </div>`
+            console.log(i)
+            i++
 
-    fs.writeFile('index.html', htmlOpening, function (err) {
-        if (err) throw err;
-        console.log('Saved!');
-    });
+        } else if (employeeList[i].getRole().toString() === "Manager") {
+            htmlText += `
+                <div class="card" style="width: 25%">
+                    <div class="card-body">
+                        <ul class="devMember list-group list-group-flush">
+                            <li class="list-group-item">Name: ${employeeList[i].name}</li>
+                            <li class="list-group-item">ID: ${employeeList[i].id}</li>
+                            <li class="list-group-item">Phone Number: ${employeeList[i].phoneNumber}</li>
+                            <li class="list-group-item">Email: ${employeeList[i].email}</li>
+                        </ul>
+                    </div>
+                </div>`
+            console.log(i)
+            i++
 
-    while (i <= count) {
-        fs.appendFile('index.html', ``,function (err) {
-            if (err) throw err;
-            console.log('Saved!');
-        });
-        i++;
+        } else if (employeeList[i].getRole().toString() === "Intern") {
+            htmlText += `
+                <div class="card" style="width: 25%">
+                    <div class="card-body">
+                        <ul class="devMember list-group list-group-flush">
+                            <li class="list-group-item">Name: ${employeeList[i].name}</li>
+                            <li class="list-group-item">ID: ${employeeList[i].id}</li>
+                            <li class="list-group-item">School: ${employeeList[i].school}</li>
+                            <li class="list-group-item">Email: ${employeeList[i].email}</li>
+                        </ul>
+                    </div>
+                </div>`
+            console.log(i)
+            i++
+
+        } else {
+            console.log('No Hit')
+        }
     }
-
-    fs.appendFile('index.html', htmlClosing, function (err) {
-        if (err) throw err;
-        console.log('Saved!');
-    });
-
+    htmlText += htmlClosing
+    console.log(htmlText);
     employeeList.length = 0;
+    return htmlText
 }
+function generatePage(content) {
+    fs.writeFile('index.html', content, function (err) {
+        if (err) throw err;
+        console.log('File Created');
+    });
+};
+
 
 //------------------------------------------MAIN------------------------------------------------------
 function mainMenu() {
@@ -215,7 +274,8 @@ function mainMenu() {
             } else if (main === 'Add Manager') {
                 manager();
             } else {
-                generatePage();
+                var content1 = createContent()
+                generatePage(content1);
             }
         })
         .catch((error) => {

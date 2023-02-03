@@ -9,8 +9,8 @@ class Intern extends Employee {
         return school
     }
     getRole() {
-        return 'Intern'
+        return "Intern"
     }
 }
 
-module.export = Intern
+module.exports = Intern
