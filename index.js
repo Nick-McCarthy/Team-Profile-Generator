@@ -196,8 +196,8 @@ function createContent() {
                         <ul class="devMember list-group list-group-flush">
                             <li class="list-group-item">Name: ${employeeList[i].name}</li>
                             <li class="list-group-item">ID: ${employeeList[i].id}</li>
-                            <li class="list-group-item">GitHub: ${employeeList[i].gitHub}</li>
-                            <li class="list-group-item">Email: ${employeeList[i].email}</li>
+                            <li class="list-group-item">GitHub: <a href="https://github.com/${employeeList[i].gitHub}">${employeeList[i].gitHub}</a></li>
+                            <li class="list-group-item">Email: <a href="mailto:${employeeList[i].email}">${employeeList[i].email}</a></li>
                         </ul>
                     </div>
                 </div>`
@@ -212,7 +212,7 @@ function createContent() {
                             <li class="list-group-item">Name: ${employeeList[i].name}</li>
                             <li class="list-group-item">ID: ${employeeList[i].id}</li>
                             <li class="list-group-item">Phone Number: ${employeeList[i].phoneNumber}</li>
-                            <li class="list-group-item">Email: ${employeeList[i].email}</li>
+                            <li class="list-group-item">Email: <a href="mailto:${employeeList[i].email}">${employeeList[i].email}</a></li>
                         </ul>
                     </div>
                 </div>`
@@ -227,7 +227,7 @@ function createContent() {
                             <li class="list-group-item">Name: ${employeeList[i].name}</li>
                             <li class="list-group-item">ID: ${employeeList[i].id}</li>
                             <li class="list-group-item">School: ${employeeList[i].school}</li>
-                            <li class="list-group-item">Email: ${employeeList[i].email}</li>
+                            <li class="list-group-item">Email: <a href="mailto:${employeeList[i].email}">${employeeList[i].email}</a></li>
                         </ul>
                     </div>
                 </div>`
@@ -289,7 +289,7 @@ function mainMenu() {
             }
         });
 }
-
+//----- if name == main -----
 mainMenu()
 
 
