@@ -1,9 +1,9 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
 
-const Manager = require('./manager');
-const Engineer = require('./engineer');
-const Intern = require('./intern');
+const Manager = require('./classes/manager');
+const Engineer = require('./classes/engineer');
+const Intern = require('./classes/intern');
 
 //--------------------------------------------VARS--------------------------------------------------------
 var htmlOpening = `<!DOCTYPE html>
@@ -181,7 +181,7 @@ function manager() {
             }
         });
 }
-//------------------------------------------GENERATE PAGE------------------------------------------------------
+//------------------------------------------CREATE CONTENT------------------------------------------------------
 function createContent() {
     var htmlText = htmlOpening
     var employeeCount = employeeList.length
@@ -243,6 +243,7 @@ function createContent() {
     employeeList.length = 0;
     return htmlText
 }
+//-------------------------------------------- GENERATE PAGE ---------------------------------------------------------------------
 function generatePage(content) {
     fs.writeFile('index.html', content, function (err) {
         if (err) throw err;
@@ -251,7 +252,7 @@ function generatePage(content) {
 };
 
 
-//------------------------------------------MAIN------------------------------------------------------
+//-------------------------------------------------- MAIN ------------------------------------------------------------------------
 function mainMenu() {
     inquirer
         .prompt(
